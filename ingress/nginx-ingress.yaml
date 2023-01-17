@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pintu-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: nodeping
+              port: 
+                number: 3000
+        - path: /goping(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: goping
+              port: 
+                number: 10000
+        - path: /nodeping(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: nodeping
+              port: 
+                number: 3000
